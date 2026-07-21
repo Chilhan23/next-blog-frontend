@@ -1,8 +1,5 @@
 # Next.js Blog Frontend Client (TechPulse)
 
-A modern, production-grade Next.js web application designed as the official frontend client for the [`golang-blog-api`](https://github.com/Chilhan23/golang-blog-api) backend service.
-
-Built following the design principles of Vercel, Linear, Apple, Notion, and Clerk. Features a monochrome design system, Framer Motion micro-animations, skeleton loading states, client-side API proxy rewrites, and full TypeScript type safety.
 
 ---
 
