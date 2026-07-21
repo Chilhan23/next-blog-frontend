@@ -1,34 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Blog Frontend Client (TechPulse)
+
+A modern, production-grade Next.js web application designed as the official frontend client for the [`golang-blog-api`](https://github.com/Chilhan23/golang-blog-api) backend service.
+
+Built following the design principles of Vercel, Linear, Apple, Notion, and Clerk. Features a monochrome design system, Framer Motion micro-animations, skeleton loading states, client-side API proxy rewrites, and full TypeScript type safety.
+
+---
+
+## Features
+
+- **Backend Integration:** Consumes the REST API from `golang-blog-api` via a centralized service layer (`services/`).
+- **Authentication & JWT Session:** Client-side JWT session management, automatic Bearer header attachment, and state synchronization across browser tabs.
+- **Role-Aware UI:** Admin-exclusive actions (e.g. `+ Category` button) are dynamically rendered based on the decoded JWT claims (`role === 'admin'`).
+- **Resource Ownership Authorization:** Edit & Delete buttons for articles and comments are displayed only when the authenticated user is the resource owner or an Admin.
+- **Interactive Likes System:** Optimistic UI updates for instant heart animations and live like counter toggle.
+- **Discussion & Comments System:** Real-time comment submission, relative timestamps, author avatars, and comment deletion permissions.
+- **Responsive Category Filters:** Filter articles by topic with Framer Motion layout animations.
+- **Framer Motion Micro-Animations:** Page entrance transitions, hover-lift card effects, tab scaling, and tap feedback.
+- **Dark & Light Monochrome Design:** Sleek typography, reading time estimates (`4 min read`), and glassmorphism.
+
+---
+
+## Tech Stack
+
+- **Framework:** [Next.js 16+](https://nextjs.org/) (App Router & Turbopack)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 & Custom CSS Utilities
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** Lucide React
+
+---
+
+## Project Structure
+
+```
+.
+├── app/
+│   ├── blogs/
+│   │   ├── [id]/
+│   │   │   ├── edit/page.tsx         # Edit blog post page
+│   │   │   └── page.tsx              # Single blog article & discussion view
+│   │   ├── create/page.tsx           # Create blog post page
+│   │   └── my/page.tsx               # Author profile dashboard ("My Posts")
+│   ├── categories/
+│   │   └── create/page.tsx           # Create category page (Admin restricted)
+│   ├── components/
+│   │   ├── BlogCard.tsx              # Blog card component with reading time & likes
+│   │   ├── CategoryFilter.tsx        # Topic filter pills component
+│   │   ├── CommentSection.tsx        # Discussion & comment list component
+│   │   ├── Footer.tsx                # Application footer
+│   │   ├── Modal.tsx                 # Modal dialog component
+│   │   └── Navbar.tsx                # Responsive glassmorphic header
+│   ├── login/page.tsx                # Authentication login page
+│   ├── register/page.tsx             # User registration page
+│   ├── types/index.ts                # TypeScript type definitions
+│   ├── globals.css                   # Global styles & design system utilities
+│   ├── layout.tsx                    # Root layout wrapper
+│   └── page.tsx                      # Main home feed & hero section
+├── services/
+│   ├── api.ts                        # Centralized fetch wrapper & JWT header injector
+│   ├── auth.ts                       # Authentication & JWT session helpers
+│   ├── blogs.ts                      # Blog CRUD & like API service methods
+│   ├── categories.ts                 # Category API service methods
+│   └── comments.ts                   # Comment API service methods
+├── types/
+│   └── index.ts                      # Centralized TypeScript interfaces
+├── .env.local                        # Frontend environment variables
+├── next.config.mjs                   # API proxy rewrite configuration
+├── package.json
+└── tsconfig.json
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18.x or higher
+- npm 9.x or higher
+- Running instance of [`golang-blog-api`](https://github.com/Chilhan23/golang-blog-api) on `http://localhost:8080`
+
+---
+
+### Environment Setup
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Installation & Local Development
 
-## Learn More
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:Chilhan23/next-blog-frontend.git
+   cd next-blog-frontend
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Open `http://localhost:3000` in your browser.
 
-## Deploy on Vercel
+All `/api/*` requests will be proxied automatically to the Golang backend running at `http://localhost:8080`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Production Build
+
+To verify type safety and generate an optimized production bundle:
+
+```bash
+# Type-check TypeScript
+npx tsc --noEmit
+
+# Build production bundle
+npm run build
+
+# Start production server
+npm start
+```
+
+---
+
+## Backend Reference
+
+This frontend client consumes the REST API built in Golang. For database setup, API endpoint reference, and migration instructions, see the [Golang REST API Repository](https://github.com/Chilhan23/golang-blog-api).
+
+---
+
+## License
+
+This project is open-source software under the MIT License.
